@@ -22,10 +22,10 @@ public class Cart {
         return products.size();
     }
 
-    public double totalPrice() {
+    public double totalPrice(Catalogo catalogo) {
         double totalPrice = 0.0;
         for (Product product : products) {
-            totalPrice += product.getPrice() * product.getQuantity();
+            totalPrice += catalogo.getPrice(product);
         }
         return totalPrice;
     }

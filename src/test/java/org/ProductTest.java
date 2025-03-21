@@ -14,9 +14,9 @@ public class ProductTest {
 
     @Test
     public void products_are_distinct_002() {
-        Product product1 = new Product("Item1", 10.0, 1);
-        Product product2 = new Product("Item2", 20.0, 1);
+        Product product1 = new Product("Item1");
+        Product product2 = new Product("Item2");
 
-        assertFalse(product1.equals(product2));
+        assertNotEquals(product1, product2);
     }
 }

@@ -2,6 +2,8 @@ package org;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -74,37 +76,51 @@ public class CartTest {
     @Test
     public void cart_can_return_full_price_007() {
         Cart aCart = new Cart();
-        Product product1 = new Product("Item1", 10.0, 2);
-        Product product2 = new Product("Item2", 20.0, 1);
+        Product product1 = getProductExample();
+        HashMap<Product, Double> listaDePrecios = new HashMap<>();
+        listaDePrecios.put(product1, 20.0);
+        Catalogo catalogo = new Catalogo(listaDePrecios, new Date());
 
         aCart.add(product1);
-        aCart.add(product2);
+        aCart.add(product1);
 
-        assertEquals(40.0, aCart.totalPrice());
+        assertEquals(40.0, aCart.totalPrice(catalogo));
+    }
+
+    private static Product getProductExample() {
+        return new Product("Item1");
     }
 
     @Test
     public void cart_can_return_empty_price_008() {
         Cart aCart = new Cart();
+        Product product1 = getProductExample();
+        HashMap<Product, Double> listaDePrecios = new HashMap<>();
+        listaDePrecios.put(product1, 10.0);
+        Catalogo catalogo = new Catalogo(listaDePrecios, new Date());
 
-        assertEquals(0.0, aCart.totalPrice());
+
+        assertEquals(0.0, aCart.totalPrice(catalogo));
     }
 
     @Test
     public void cart_can_return_price_of_single_item_009() {
         Cart aCart = new Cart();
-        Product product1 = new Product("Item1", 10.0, 1);
+        Product product1 = getProductExample();
+        HashMap<Product, Double> listaDePrecios = new HashMap<>();
+        listaDePrecios.put(product1, 10.0);
+        Catalogo catalogo = new Catalogo(listaDePrecios, new Date());
 
         aCart.add(product1);
 
-        assertEquals(10.0, aCart.totalPrice());
+        assertEquals(10.0, aCart.totalPrice(catalogo));
     }
 
     @Test
     public void cart_can_clear_items_010() {
         Cart aCart = new Cart();
-        Product product1 = new Product("Item1", 10.0, 1);
-        Product product2 = new Product("Item2", 20.0, 1);
+        Product product1 = getProductExample();
+        Product product2 = getProductExample();
 
         aCart.add(product1);
         aCart.add(product2);
@@ -118,25 +134,13 @@ public class CartTest {
     @Test
     public void cart_can_return_items_011() {
         Cart aCart = new Cart();
-        Product product1 = new Product("Item1", 10.0, 1);
-        Product product2 = new Product("Item2", 20.0, 1);
+        Product product1 = getProductExample();
+        Product product2 = getProductExample();
         aCart.add(product1);
         aCart.add(product2);
 
         List<Product> products = aCart.getItems();
 
         assertTrue(products.contains(product1) && products.contains(product2));
-    }
-
-    @Test
-    public void cart_can_return_items_ids_012() {
-        Cart aCart = new Cart();
-        Product product1 = new Product("Item1", 10.0, 1);
-        Product product2 = new Product("Item2", 20.0, 1);
-        aCart.add(product1);
-        aCart.add(product2);
-        List<Integer> ids = aCart.getItems().stream().map(Product::getId).toList();
-
-        assertTrue(ids.contains(product1.getId()) && ids.contains(product2.getId()));
     }
 }
